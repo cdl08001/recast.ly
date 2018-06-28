@@ -7,10 +7,10 @@ class App extends React.Component {
     };
   }
 
-  onVideoItemClick() {
+  onVideoItemClick(currentVid) {
     this.setState({
       clicked: !this.state.clicked,
-      currentVideo: exampleVideoData[1]
+      currentVideo: currentVid
     });
     console.log('Clicked');
   }
