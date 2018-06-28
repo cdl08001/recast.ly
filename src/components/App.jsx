@@ -2,25 +2,40 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clicked: false,
-      currentVideo: exampleVideoData[0]
+      currentVideo: exampleVideoData[0],
+      options: {key: 'AIzaSyAkHu1cK8EkmlCMmaTtpjhBXDPTvmjKCpI', max: 5, query: ''},
+      videoData: exampleVideoData
     };
   }
 
   onVideoItemClick(currentVid) {
     this.setState({
-      clicked: !this.state.clicked,
       currentVideo: currentVid
     });
-    console.log('Clicked');
   }
+
+  updateVideoList(data){
+    this.setState({
+      videoData: data
+    });
+  }   
+
+  handleSearch(searchquery){
+    this.setState({
+      options: {query : searchquery}
+    });
+    
+    var self = this;
+    searchYouTube(self.state.options, self.updateVideoList.bind(this));
+  }
+
 
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search handleSearch={this.handleSearch.bind(this)}/>
           </div>
         </nav>
         <div className="row">
@@ -28,7 +43,7 @@ class App extends React.Component {
             <VideoPlayer video={this.state.currentVideo}/>
           </div>
           <div className="col-md-5">
-            <VideoList videos={exampleVideoData} handleClick={this.onVideoItemClick.bind(this)}/>
+            <VideoList videos={this.state.videoData} handleClick={this.onVideoItemClick.bind(this)}/>
           </div>
         </div>
       </div>
