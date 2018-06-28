@@ -3,9 +3,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentVideo: exampleVideoData[0],
-      options: {key: 'AIzaSyAkHu1cK8EkmlCMmaTtpjhBXDPTvmjKCpI', max: 5, query: ''},
       videoData: exampleVideoData
     };
+    this.options = {key: 'AIzaSyAkHu1cK8EkmlCMmaTtpjhBXDPTvmjKCpI', max: 5, query: 'Cats'};
   }
 
   onVideoItemClick(currentVid) {
@@ -20,15 +20,23 @@ class App extends React.Component {
     });
   }   
 
-  handleSearch(searchquery){
+  renderPlayerAndList(data){
     this.setState({
-      options: {query : searchquery}
+      currentVideo: data[0],
+      videoData: data
     });
-    
-    var self = this;
-    searchYouTube(self.state.options, self.updateVideoList.bind(this));
   }
 
+  handleSearch(searchquery){ 
+    this.options.query = searchquery;
+    var self = this;
+    searchYouTube(self.options, self.updateVideoList.bind(this));
+  }
+  
+  componentDidMount(){
+    var self = this;
+    searchYouTube(self.options, self.renderPlayerAndList.bind(this));
+  }
 
   render() {
     return (

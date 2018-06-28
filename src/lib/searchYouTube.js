@@ -11,10 +11,11 @@ var searchYouTube = (options, callback) => {
       'videoEmbeddable': true
     },
     success: function(data){
-      console.log('success');
-      console.log(data.items);
       callback(data.items);
     },
+    error: function(err){
+      console.log(err);
+    }
     // dataType: dataType
   });
 };
